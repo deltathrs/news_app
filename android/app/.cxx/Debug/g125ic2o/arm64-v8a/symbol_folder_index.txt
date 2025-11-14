@@ -1,0 +1,1 @@
+C:\Users\Mario\news_app\build\app\intermediates\cxx\Debug\g125ic2o\obj\arm64-v8a

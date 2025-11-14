@@ -1,0 +1,2 @@
+C:/Users/Mario/news_app/android/app/.cxx/Debug/g125ic2o/x86/CMakeFiles/edit_cache.dir
+C:/Users/Mario/news_app/android/app/.cxx/Debug/g125ic2o/x86/CMakeFiles/rebuild_cache.dir
