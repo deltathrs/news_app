@@ -13,6 +13,7 @@ class NewsRepositoryImpl implements NewsRepository {
         .map((item) => NewsEntity(
             author: item.author ?? 'Unknown',
             title: item.title,
+            publishedAt: item.publishedAt,
             description: item.description,
             url: item.urlToImage ?? '',
             content: item.content))

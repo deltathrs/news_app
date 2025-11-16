@@ -1,26 +1,41 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:news_app/features/auth/data/model/user_model.dart';
 
-// class FirebaseAuthDatasource {
-//   final FirebaseAuth auth;
-//   final GoogleSignIn googleSignIn;
+abstract class FirebaseAuthDatasource {
+  Future<UserModel?> signInWithGoogle();
+  Future<void> signOut();
+}
 
-//   FirebaseAuthDatasource({required this.auth, required this.googleSignIn});
-  
-//   Future<UserCredential> signInWithGoogle() async {
-//     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-//     if (googleUser == null) {
-//       throw Exception('Google sign-in aborted');
-//     }
+class FirebaseAuthDatasourceImpl implements FirebaseAuthDatasource {
+  final FirebaseAuth auth;
+  final GoogleSignIn googleSignIn;
 
-//     final GoogleSignInAuthentication googleAuth =
-//         await googleUser.authentication;
+  FirebaseAuthDatasourceImpl({required this.auth, required this.googleSignIn});
 
-//     final credential = GoogleAuthProvider.credential(
-//       accessToken: googleAuth.accessToken,
-//       idToken: googleAuth.idToken,
-//     );
+  @override
+  Future<UserModel?> signInWithGoogle() async {
+    final googleUser = await googleSignIn.signIn();
+    if (googleUser == null) return null;
 
-//     return await auth.signInWithCredential(credential);
-//   }
-// }
+    final googleAuth = await googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final userCredential = await auth.signInWithCredential(credential);
+
+    final user = userCredential.user;
+    if (user == null) return null;
+
+    return UserModel.fromFirebase(user);
+  }
+
+  @override
+  Future<void> signOut() async {
+    await auth.signOut();
+    await googleSignIn.signOut();
+  }
+}
