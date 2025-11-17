@@ -13,6 +13,9 @@ class NewsCubit extends Cubit<NewsState> {
     emit(NewsLoading());
     try {
       final articles = await newsUsecase.fetchNewsArticles();
+      for (var article in articles) {
+        await newsUsecase.addNewsArticle(article);
+      }
       emit(NewsLoaded(articles: articles));
     } catch (e) {
       emit(NewsError(message: e.toString()));

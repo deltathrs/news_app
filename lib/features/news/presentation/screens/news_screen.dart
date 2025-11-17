@@ -1,5 +1,6 @@
 library news_screen;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
@@ -125,25 +126,33 @@ class _NewsScreenState extends State<NewsScreen> {
                                       children: [
                                         // IMAGE DI KIRI
                                         ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          child: Image.network(
-                                            state.articles[index].url,
-                                            width: 110,
-                                            height: 110,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Container(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  state.articles[index].url,
+                                              width: 110,
+                                              height: 110,
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                width: 110,
+                                                height: 110,
+                                                color: Colors.grey[300],
+                                                child: const Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
                                                 width: 110,
                                                 height: 110,
                                                 color: Colors.grey[300],
                                                 child: const Icon(
                                                     Icons.image_not_supported),
-                                              );
-                                            },
-                                          ),
-                                        ),
+                                              ),
+                                            )),
 
                                         const SizedBox(width: 12),
 

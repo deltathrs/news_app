@@ -23,7 +23,7 @@ class NewsLocalModel {
         "author": author,
         "description": description,
         "url": url,
-        "publishedAt": publishedAt.toString(),
+        "publishedAt": publishedAt.toIso8601String(), // simpan INTEGER
         "content": content,
       };
 
@@ -33,7 +33,7 @@ class NewsLocalModel {
         author: json["author"],
         description: json["description"],
         url: json["url"],
-        publishedAt: json["publishedAt"],
+        publishedAt: DateTime.parse(json["publishedAt"]), // parse INTEGER
         content: json["content"],
       );
 }

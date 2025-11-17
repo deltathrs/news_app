@@ -1,0 +1,2 @@
+D:/mario.lita/GitHub/news_app/android/app/.cxx/Debug/382w5z61/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/mario.lita/GitHub/news_app/android/app/.cxx/Debug/382w5z61/armeabi-v7a/CMakeFiles/rebuild_cache.dir

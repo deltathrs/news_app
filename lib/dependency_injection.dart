@@ -1,7 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:news_app/core/network/api_services.dart';
+import 'package:news_app/core/network/network_connection.dart';
 import 'package:news_app/core/network/secure_storage_services.dart';
 import 'package:news_app/features/auth/data/datasource/firebase_auth_datasource.dart';
 import 'package:news_app/features/auth/data/repositories_impl/user_repoimpl.dart';
@@ -27,6 +29,7 @@ class DependencyInjection {
     //Register Firebase Auth
     getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
     getIt.registerLazySingleton<GoogleSignIn>(() => GoogleSignIn());
+    getIt.registerLazySingleton<Connectivity>(() => Connectivity());
 
     //Register Secure Storage
     getIt.registerLazySingleton<SecureStorageService>(
@@ -35,6 +38,8 @@ class DependencyInjection {
     //Register ApiService
     getIt.registerLazySingleton<ApiService>(
         () => ApiService(secureStorageService: getIt<SecureStorageService>()));
+    getIt.registerLazySingleton<NetworkInfo>(
+        () => NetworkInfoImpl(getIt<Connectivity>()));
 
     //Register Datasource
     getIt.registerLazySingleton<NewsDataSource>(
@@ -44,8 +49,9 @@ class DependencyInjection {
             auth: getIt<FirebaseAuth>(), googleSignIn: getIt<GoogleSignIn>()));
 
     //Register Repository
-    getIt.registerLazySingleton<NewsRepository>(
-        () => NewsRepositoryImpl(newsDataSource: getIt<NewsDataSource>()));
+    getIt.registerLazySingleton<NewsRepository>(() => NewsRepositoryImpl(
+        newsDataSource: getIt<NewsDataSource>(),
+        networkInfo: getIt<NetworkInfo>()));
     getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
         firebaseAuthDatasource: getIt<FirebaseAuthDatasource>()));
 

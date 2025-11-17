@@ -44,14 +44,14 @@ class NewsDataSourceImpl implements NewsDataSource {
   @override
   Future<int> addNewsArticle(NewsLocalModel news) async {
     final db = await DatabaseHelper.database();
-    return db.insert(DatabaseHelper.DB_NAME, news.toJson());
+    return db.insert(DatabaseHelper.TABLE_NEWS, news.toJson());
   }
 
   @override
   Future<List<NewsLocalModel>> getSavedNews() async {
     try {
       final db = await DatabaseHelper.database();
-      final result = await db.query(DatabaseHelper.DB_NAME);
+      final result = await db.query(DatabaseHelper.TABLE_NEWS);
 
       return result.map((e) => NewsLocalModel.fromJson(e)).toList();
     } catch (e) {
