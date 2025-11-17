@@ -10,9 +10,13 @@ class NewsUsecase {
     return await newsRepository.fetchNewsArticles();
   }
 
-  // Future<int> addNewsArticle(NewsEntity news) async {
-  //   return await newsRepository.addNewsArticle(news);
-  // }
+  Future<int> addNewsArticle(NewsEntity news) async {
+    return await newsRepository.addNewsArticle(news);
+  }
+
+  Future<List<NewsEntity>> getSavednews() async {
+    return await newsRepository.getSavedNews();
+  }
 
   // Future<List<NewsEntity>> getOfflineNewsArticles() async {
   //   return await newsRepository.getOfflineNewsArticles();

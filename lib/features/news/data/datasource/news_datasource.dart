@@ -1,12 +1,13 @@
 import 'package:logger/logger.dart';
 import 'package:news_app/core/db/database_helper.dart';
 import 'package:news_app/core/network/api_services.dart';
+import 'package:news_app/features/news/data/model/news_local_model.dart';
 import 'package:news_app/features/news/data/model/news_model.dart';
 
 abstract class NewsDataSource {
   Future<List<Article>> fetchNewsArticles();
-  // Future<int> addNewsArticle(NewsModel news);
-  // Future<List<Article>> getOfflineNewsArticles();
+  Future<int> addNewsArticle(NewsLocalModel news);
+  Future<List<NewsLocalModel>> getSavedNews();
 }
 
 class NewsDataSourceImpl implements NewsDataSource {
@@ -40,9 +41,22 @@ class NewsDataSourceImpl implements NewsDataSource {
     }
   }
 
-  // @override
-  // Future<int> addNewsArticle(Article news) async {
-  //   final db = await DatabaseHelper.database();
-  //   return db.insert(DatabaseHelper.DB_NAME, news.toJson());
-  // }
+  @override
+  Future<int> addNewsArticle(NewsLocalModel news) async {
+    final db = await DatabaseHelper.database();
+    return db.insert(DatabaseHelper.DB_NAME, news.toJson());
+  }
+
+  @override
+  Future<List<NewsLocalModel>> getSavedNews() async {
+    try {
+      final db = await DatabaseHelper.database();
+      final result = await db.query(DatabaseHelper.DB_NAME);
+
+      return result.map((e) => NewsLocalModel.fromJson(e)).toList();
+    } catch (e) {
+      _logger.e("Error reading local DB: $e");
+      throw Exception("Failed to load saved news");
+    }
+  }
 }

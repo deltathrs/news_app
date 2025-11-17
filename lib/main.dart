@@ -39,8 +39,6 @@ class MyApp extends StatelessWidget {
             providers: [
               BlocProvider(
                 create: (context) => GetIt.instance<UserCubit>(),
-                // Jika sudah login → ke HomeScreen
-                // Jika belum → ke AuthScreen
               ),
               BlocProvider(
                 create: (context) => GetIt.instance<NewsCubit>(),
