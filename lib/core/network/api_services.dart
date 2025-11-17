@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:news_app/core/network/secure_storage_services.dart';
 
@@ -54,7 +55,7 @@ class ApiService {
       _logger.i("getApiData to ${queryParams} with queryParam: $queryParams");
 
       final params = {
-        "apiKey": "a7841b339acd44ebb3d9c9818b10f4d8",
+        "apiKey": dotenv.env['NEWS_API_KEY'],
         ...?queryParams,
       };
 
